@@ -7,32 +7,44 @@ import math
 
 class Matrix(object):
     def __init__(self):
+        # Constructor
         # Конструктор класса Матрица
+        
         self.matrix = None
         self.I = 0
         self.J = 0
     
     def __mul__(self, other):
+        # Matrix multiplication
         # перегрузка * (произведение матриц)
+        
         if (type(self) == type(other)):
             other = other.matrix
         return self.dot(matrix = other)
     
     def __add__(self, other):
+        # Addition of matrices
         # перегрузка + (сумма матриц)
+        
         if (type(self) == type(other)):
             other = other.matrix
         return self.add(matrix = other)
     
     def __sub__(self, other) :
+        # Subtraction of matrices
         # перегрузка - (разность матриц)
+        
         if (type(self) == type(other)):
             other = other.matrix
         return self.sub(matrix = other)
     
     def compare(self, other):
+        # Compares the size of the matrices 
+        # Returns True if the matrices are the same size
+        
         # Сравнивает размеры матриц
         # Возвращает True, если матрицы одинакового размера
+        
         if (type(self) == type(other)):
             other = other.matrix
             
@@ -42,8 +54,12 @@ class Matrix(object):
         return False
     
     def size(self, matrix = None):
+        # Return True - matrix square NxN
+        # Return False - matrix is not square MxN
+        
         # True - матрица квадратная NxN
         # False - матрица не квадратная MxN
+        
         if matrix == None:
             matrix = self.matrix
         
@@ -54,17 +70,23 @@ class Matrix(object):
         return True
     
     def get(self):
+        # Return matrix
         # Возращает матрицу
+        
         return (self.matrix)
     
     def set(self, matrix):
+        # Set matrix
         # Устанавливает матрицу
+        
         self.matrix = matrix
         self.I = len(matrix)
         self.J = len(matrix[0])
     
     def transposition(self, matrix = None):
+        # The transpose of the matrix
         # Транспонирование матрицы
+        
         if matrix == None:
             matrix = self.matrix
         
@@ -79,7 +101,9 @@ class Matrix(object):
         return transpos_matrix
     
     def minor(self, i, j, matrix = None):
+        # Minor of the matrix
         # Минор матрицы
+        
         if matrix == None:
             matrix = self.matrix
             
@@ -90,7 +114,9 @@ class Matrix(object):
         return matrix_minor
     
     def add(self, matrix):
+        # Addition of matrices
         # Сумма матриц
+        
         if (type(self) == type(matrix)):
             matrix = matrix.matrix
             
@@ -103,11 +129,14 @@ class Matrix(object):
                 sum_matrix.append(temp)
             return sum_matrix
         else:
+            # You can not add matrices of different lengths
             print("Нельзя складывать матрицы разной длинны")
             return 0
     
     def sub(self, matrix):
+        # Subtraction of matrices
         # Разность матриц
+        
         if (type(self) == type(matrix)):
             matrix = matrix.matrix
             
@@ -120,11 +149,14 @@ class Matrix(object):
                 sum_matrix.append(temp)
             return sum_matrix
         else:
+            # You cannot subtract matrices of different lengths
             print("Нельзя вычитать матрицы разной длинны")
             return 0
     
     def dot(self, matrix):
+        # Matrix multiplication
         # Произведение матриц
+        
         if type(matrix) == int or type(matrix) == float:
             return(self.dotAn(matrix=self.matrix, n = matrix))
         else:
@@ -148,7 +180,9 @@ class Matrix(object):
                 print("Index Error")
     
     def dotAn(self, matrix, n):
+        # Matrix by the number multiplication
         # Произведение матрицы на число
+        
         if type(n) == int or type(n) == float:
             mult = []
             for i in matrix:
@@ -159,7 +193,9 @@ class Matrix(object):
             return mult
         
     def dotAB(self, A, B):
+        # Multiplication two given matrices
         # Произведение двух заданных матриц
+        
         if (type(self) == type(A)):
             A = A.matrix
         if (type(self) == type(B)):
@@ -188,7 +224,9 @@ class Matrix(object):
                 return 0
     
     def determinant(self, matrix = None, mul = 1):
+        # Matrix determinant
         # Определитель матрицы
+        
         if matrix == None:
             matrix = self.matrix
         
@@ -214,7 +252,9 @@ class Matrix(object):
             return sum
         
     def eye(self, n = None):
+        # Create a unit matrix
         # Создать единичную матрицу
+        
         if(n == None):
             matrix = []
             for i in range(self.I):
@@ -235,7 +275,9 @@ class Matrix(object):
             return(matrix)
     
     def norm1(self):
+        # The first norm of the matrix
         # Первая норма матрицы
+        
         matrix = []
         
         for j in range(self.J):
@@ -248,13 +290,17 @@ class Matrix(object):
         return max(matrix)
     
     def norm2(self):
+        # The second norm of the matrix
         # Вторая норма матрицы
+        
         t_matrix = self.transposition()
         
         return self.dotAB(t_matrix, self.matrix)
     
     def norm_E(self):
+        # Euclidean norm of the matrix
         # Евклидова норма матрицы
+        
         temp = 0
         
         for i in range(self.I):
@@ -265,7 +311,9 @@ class Matrix(object):
         return math.sqrt(temp)
     
     def norm_I(self):
+        # Infinite norm of matrix
         # Бесконечная норма матрицы
+        
         matrix = []
         
         for i in range(self.I):
@@ -278,7 +326,9 @@ class Matrix(object):
         return max(matrix)
     
     def lu(self):
+        # LU decomposition
         # LU разложение
+        
         n = self.I
         
         U = self.get()
@@ -302,13 +352,16 @@ class Matrix(object):
         return L, U
     
     def Cholesky_Decomposition(self):
+        # Cholesky Decomposition
         # Разложение Холецкого
+        
         n = self.I
         
         lower = [[0 for x in range(n)]  
                     for y in range(n)]; 
         
-        # Разложение матрицы 
+        # Decomposition of matrix
+        # Разложение матрицы
         try:
             for i in range(n):  
                 for j in range(i + 1):  
@@ -329,7 +382,9 @@ class Matrix(object):
             return 0
     
     def union_matrix(self, matrix = None):
+        # Union matrix
         # Союзная матрица
+        
         if matrix == None:
             matrix = self.matrix
         
@@ -349,7 +404,9 @@ class Matrix(object):
         return union
     
     def inverse(self, matrix = None):
+        # Inverse matrix
         # Обратная матрица
+        
         if matrix == None:
             matrix = self.matrix
         determ = self.determinant(matrix = matrix)
@@ -361,7 +418,9 @@ class Matrix(object):
             return 0
     
     def ax_b(self, B, A = None):
+        # The solution to the equation AX = B
         # Решение уровнения AX = B
+        
         if (A == None):
             A = self.matrix
 
@@ -380,30 +439,40 @@ class Matrix(object):
 
 class Vector(object):
     def __init__(self, vector=[]):
+        # Constructor
         # Конструктор класса Вектор
+        
         self.vector = vector
     
     def __mul__(self, other):
+        # Vector multiplication
         # перегрузка * (произведение векторов)
+        
         if (type(self) == type(other)):
             other = other.vector
         return self.dot(vector = other)
     
     def __add__(self, other):
+        # Addition of vectors
         # перегрузка + (сумма векторов)
         if (type(self) == type(other)):
             other = other.vector
         return self.add(vector = other)
     
-    def __sub__(self, other) :
+    def __sub__(self, other):
+        # Subtraction of vectors
         # перегрузка - (разность векторов)
         if (type(self) == type(other)):
             other = other.vector
         return self.sub(vector = other)
     
     def compare(self, other):
+        # Compares the size of the vectors 
+        # Returns True if the vectors are the same size
+        
         # Сравнение векторов
         # Возвращает True, если вектора одинакового размера
+        
         if (type(self) == type(other)):
             other = other.vector
             
@@ -413,15 +482,21 @@ class Vector(object):
             return False
     
     def get(self):
+        # Return vector
         # Возвращает вектор
+        
         return self.vector
     
     def set(self, vector = []):
+        # Set vector
         # Устонавливает вектор
+        
         self.vector = vector
     
     def add(self, vector):
+        # Addition of vectors
         # Сумма векторов
+        
         if (type(self) == type(vector)):
             vector = vector.vector
         if self.compare(vector):
@@ -434,7 +509,9 @@ class Vector(object):
             return 0
     
     def sub(self, vector):
+        # Subtraction of vectors
         # Разность векторов
+        
         if (type(self) == type(vector)):
             vector = vector.vector
         
@@ -448,7 +525,9 @@ class Vector(object):
             return 0
     
     def dot(self, vector):
+        # Vector multiplication
         # Произведение векторов
+        
         if type(vector) == int or type(vector) == float:
             temp = []
             for i in range(len(self.vector)):
@@ -467,24 +546,34 @@ class Vector(object):
                 return 0
         
     def norm1(self):
+        # The first norm of the vector
         # Первая норма вектора
+        
         result = 0
         for i in self.vector:
             result += abs(i)
+        
         return result
     
     def norm2(self):
+        # The second norm of the vector
         # Вторая норма вектора
+        
         result = 0
         for i in self.vector:
             result += abs(i**2)
         print("sqrt("+str(result)+")")
+        
         return math.sqrt(result)
     
     def norm3(self):
+        # The third norm of a vector
         # Третья норма вектора
+        
         vector = []
+        
         for i in self.vector:
             vector.append(abs(i))
+        
         return max(vector)
 
