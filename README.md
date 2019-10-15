@@ -1,6 +1,8 @@
 # MathLOL
 **MathLOL** - python модуль для работы с матрицами и векторами без использования NumPy
+
 [Примеры использования модуля](https://github.com/ilikeevb/MathLOL/blob/master/example.ipynb)
+
 ```python
 from mathlol import Matrix, Vector
 
