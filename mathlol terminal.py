@@ -7,7 +7,11 @@ from mathlol import Vector, Matrix
 def read_vector():
     os.system('clear')
     
-    x = os.listdir("data/vector")
+    try:
+        x = os.listdir("data/vector")
+    except:
+        print("Папка не найдена")
+        return 0
     
     for i in range(len(x)):
         print(i+1, x[i])
@@ -31,21 +35,27 @@ def input_vector():
         
     x = "EasterEgg"
     while (x!=""):
-        os.system("clear")
-        if(len(vector)>=1):
-            x = input(str(vector)[:-1]+", ")
-        else:
-            x = input("[ ")
-        if (x!=""): 
-            vector.append(float(x))
+        try:
+            os.system("clear")
+            if(len(vector)>=1):
+                x = input(str(vector)[:-1]+", ")
+            else:
+                x = input("[ ")
+            if (x!=""): 
+                vector.append(float(x))
+        except ValueError:
+            pass
     os.system("clear") 
     return vector
 
 def save_vector(vector):
-    with open("data/vector/"+ input("Name: ") +".txt", 'w') as f:
-        for i in range(len(vector)):
-            f.write("!"+str(vector[i]))
-    print("Successfully Save")
+    try:
+        with open("data/vector/"+ input("Name: ") +".txt", 'w') as f:
+            for i in range(len(vector)):
+                f.write("!"+str(vector[i]))
+        print("Successfully Save")
+    except:
+        print("Не удалось сохранить файл")
         
 def VectorReadInput():
     print("1. Read")
@@ -101,14 +111,17 @@ def input_matrix():
         tempMatrix = []
         for j in range(J):
             os.system("clear")
-            if (len(matrix) >= 1):
-                for i in matrix:
-                    print(i)
-            if (len(tempMatrix) >= 1):
-                x = float(input(str(tempMatrix)[:-1]+", "))
-            else:
-                x = float(input("[ "))
-            tempMatrix.append(x)
+            try:
+                if (len(matrix) >= 1):
+                    for i in matrix:
+                        print(i)
+                if (len(tempMatrix) >= 1):
+                    x = float(input(str(tempMatrix)[:-1]+", "))
+                else:
+                    x = float(input("[ "))
+                tempMatrix.append(x)
+            except ValueError:
+                pass
         matrix.append(tempMatrix)    
         
     os.system("clear")
@@ -117,18 +130,22 @@ def input_matrix():
 def read_matrix():
     #читать матрицу из файла
     os.system('clear')
-        
-    x = os.listdir("data/matrix")
+    
+    try:    
+        x = os.listdir("data/matrix")
+    except:
+        print("Папка data/matrix/ не найдена")
+        return 0
     
     for i in range(len(x)):
         print(i+1, (x[i].split("."))[0])
-        
+    
+    matrix = []
+    
     ReadFile = open("data/matrix/" + x[int(input("Open: "))-1], 'r')
     string = ReadFile.read()
     string = string.split("?")
 
-    matrix = []
-        
     for i in range(1, len(string)):
         temp = []
         str_temp = string[i].split("!")
@@ -141,13 +158,15 @@ def read_matrix():
     
 def save_matrix(matrix):
     #сохранить матрицу в файл
-    with open("data/matrix/"+ input("Save. File name: ") +".txt", 'w') as f:
-        for item in matrix:
-            f.write("?")
-            for i in item:
-                f.write("!"+str(i))
-    print("Successfully Save")
-    
+    try:
+        with open("data/matrix/"+ input("Save. File name: ") +".txt", 'w') as f:
+            for item in matrix:
+                f.write("?")
+                for i in item:
+                    f.write("!"+str(i))
+        print("Successfully Save")
+    except:
+        print("Не удалось сохранить файл")
 def MatrixReadInput():
     print("1. Read")
     print("2. Input")
