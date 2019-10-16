@@ -7,43 +7,53 @@ import math
 
 class Matrix(object):
     def __init__(self):
-        # Constructor
-        # Конструктор класса Матрица
+        """
+        Constructor
+        Конструктор класса Матрица
+        """
         
         self.matrix = None
         self.I = 0
         self.J = 0
     
     def __mul__(self, other):
-        # Matrix multiplication
-        # перегрузка * (произведение матриц)
+        """
+        Matrix multiplication
+        перегрузка * (произведение матриц)
+        """
         
         if (type(self) == type(other)):
             other = other.matrix
         return self.dot(matrix = other)
     
     def __add__(self, other):
-        # Addition of matrices
-        # перегрузка + (сумма матриц)
+        """
+        Addition of matrices
+        перегрузка + (сумма матриц)
+        """
         
         if (type(self) == type(other)):
             other = other.matrix
         return self.add(matrix = other)
     
     def __sub__(self, other) :
-        # Subtraction of matrices
-        # перегрузка - (разность матриц)
+        """
+        Subtraction of matrices
+        перегрузка - (разность матриц)
+        """
         
         if (type(self) == type(other)):
             other = other.matrix
         return self.sub(matrix = other)
     
     def compare(self, other):
-        # Compares the size of the matrices 
-        # Returns True if the matrices are the same size
+        """
+        Compares the size of the matrices 
+        Returns True if the matrices are the same size
         
-        # Сравнивает размеры матриц
-        # Возвращает True, если матрицы одинакового размера
+        Сравнивает размеры матриц
+        Возвращает True, если матрицы одинакового размера
+        """
         
         if (type(self) == type(other)):
             other = other.matrix
@@ -54,11 +64,13 @@ class Matrix(object):
         return False
     
     def size(self, matrix = None):
-        # Return True - matrix square NxN
-        # Return False - matrix is not square MxN
+        """
+        Return True - matrix square NxN
+        Return False - matrix is not square MxN
         
-        # True - матрица квадратная NxN
-        # False - матрица не квадратная MxN
+        True - матрица квадратная NxN
+        False - матрица не квадратная MxN
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -70,22 +82,28 @@ class Matrix(object):
         return True
     
     def get(self):
-        # Return matrix
-        # Возращает матрицу
+        """
+        Return matrix
+        Возращает матрицу
+        """
         
         return (self.matrix)
     
     def set(self, matrix):
-        # Set matrix
-        # Устанавливает матрицу
+        """
+        Set matrix
+        Устанавливает матрицу
+        """
         
         self.matrix = matrix
         self.I = len(matrix)
         self.J = len(matrix[0])
     
     def transposition(self, matrix = None):
-        # The transpose of the matrix
-        # Транспонирование матрицы
+        """
+        The transpose of the matrix
+        Транспонирование матрицы
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -101,8 +119,10 @@ class Matrix(object):
         return transpos_matrix
     
     def minor(self, i, j, matrix = None):
-        # Minor of the matrix
-        # Минор матрицы
+        """
+        Minor of the matrix
+        Минор матрицы
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -114,8 +134,10 @@ class Matrix(object):
         return matrix_minor
     
     def add(self, matrix):
-        # Addition of matrices
-        # Сумма матриц
+        """
+        Addition of matrices
+        Сумма матриц
+        """
         
         if (type(self) == type(matrix)):
             matrix = matrix.matrix
@@ -134,8 +156,10 @@ class Matrix(object):
             return 0
     
     def sub(self, matrix):
-        # Subtraction of matrices
-        # Разность матриц
+        """
+        Subtraction of matrices
+        Разность матриц
+        """
         
         if (type(self) == type(matrix)):
             matrix = matrix.matrix
@@ -154,8 +178,10 @@ class Matrix(object):
             return 0
     
     def dot(self, matrix):
-        # Matrix multiplication
-        # Произведение матриц
+        """
+        Matrix multiplication
+        Произведение матриц
+        """
         
         if type(matrix) == int or type(matrix) == float:
             return(self.dotAn(matrix=self.matrix, n = matrix))
@@ -180,8 +206,10 @@ class Matrix(object):
                 print("Index Error")
     
     def dotAn(self, matrix, n):
-        # Matrix by the number multiplication
-        # Произведение матрицы на число
+        """
+        Matrix by the number multiplication
+        Произведение матрицы на число
+        """
         
         if type(n) == int or type(n) == float:
             mult = []
@@ -193,8 +221,10 @@ class Matrix(object):
             return mult
         
     def dotAB(self, A, B):
-        # Multiplication two given matrices
-        # Произведение двух заданных матриц
+        """
+        Multiplication two given matrices
+        Произведение двух заданных матриц
+        """
         
         if (type(self) == type(A)):
             A = A.matrix
@@ -224,8 +254,10 @@ class Matrix(object):
                 return 0
     
     def determinant(self, matrix = None, mul = 1):
-        # Matrix determinant
-        # Определитель матрицы
+        """
+        Matrix determinant
+        Определитель матрицы
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -252,8 +284,10 @@ class Matrix(object):
             return sum
         
     def eye(self, n = None):
-        # Create a unit matrix
-        # Создать единичную матрицу
+        """
+        Create a unit matrix
+        Создать единичную матрицу
+        """
         
         if(n == None):
             matrix = []
@@ -275,8 +309,10 @@ class Matrix(object):
             return(matrix)
     
     def norm1(self):
-        # The first norm of the matrix
-        # Первая норма матрицы
+        """
+        The first norm of the matrix
+        Первая норма матрицы
+        """
         
         matrix = []
         
@@ -290,16 +326,20 @@ class Matrix(object):
         return max(matrix)
     
     def norm2(self):
-        # The second norm of the matrix
-        # Вторая норма матрицы
+        """
+        The second norm of the matrix
+        Вторая норма матрицы
+        """
         
         t_matrix = self.transposition()
         
         return self.dotAB(t_matrix, self.matrix)
     
     def norm_E(self):
-        # Euclidean norm of the matrix
-        # Евклидова норма матрицы
+        """
+        Euclidean norm of the matrix
+        Евклидова норма матрицы
+        """
         
         temp = 0
         
@@ -311,8 +351,10 @@ class Matrix(object):
         return math.sqrt(temp)
     
     def norm_I(self):
-        # Infinite norm of matrix
-        # Бесконечная норма матрицы
+        """
+        Infinite norm of matrix
+        Бесконечная норма матрицы
+        """
         
         matrix = []
         
@@ -326,8 +368,10 @@ class Matrix(object):
         return max(matrix)
     
     def lu(self):
-        # LU decomposition
-        # LU разложение
+        """
+        LU decomposition
+        LU разложение
+        """
         
         n = self.I
         
@@ -352,8 +396,10 @@ class Matrix(object):
         return L, U
     
     def Cholesky_Decomposition(self):
-        # Cholesky Decomposition
-        # Разложение Холецкого
+        """
+        Cholesky Decomposition
+        Разложение Холецкого
+        """
         
         n = self.I
         
@@ -382,8 +428,10 @@ class Matrix(object):
             return 0
     
     def union_matrix(self, matrix = None):
-        # Union matrix
-        # Союзная матрица
+        """
+        Union matrix
+        Союзная матрица
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -404,8 +452,10 @@ class Matrix(object):
         return union
     
     def inverse(self, matrix = None):
-        # Inverse matrix
-        # Обратная матрица
+        """
+        Inverse matrix
+        Обратная матрица
+        """
         
         if matrix == None:
             matrix = self.matrix
@@ -418,8 +468,10 @@ class Matrix(object):
             return 0
     
     def ax_b(self, B, A = None):
-        # The solution to the equation AX = B
-        # Решение уровнения AX = B
+        """
+        The solution to the equation AX = B
+        Решение уровнения AX = B
+        """
         
         if (A == None):
             A = self.matrix
@@ -434,44 +486,87 @@ class Matrix(object):
         else:
             print("Матрица вырожденная\nОбратная для неё не существует")
             return 0
+    
+    def seidel(self, b, eps = 0.0001, A = None):
+        """
+        Seidel method
+        Метод Зейделя
+        
+        eps - точность (условие выхода)
+        """
+        
+        if (A == None):
+            A = self.matrix
+        
+        n = len(A)
+        x = [.0 for i in range(n)]
+        
+        try:
+            converge = False
+            while not converge:
+                x_new = copy.copy(x)
 
+                for i in range(n):
+                    s1 = sum(A[i][j] * x_new[j] for j in range(i))
+                    s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
+                    x_new[i] = (b[i][0] - s1 - s2) / A[i][i]
+
+                converge = math.sqrt(sum((x_new[i] - x[i]) ** 2 for i in range(n))) <= eps
+                x = x_new
+            return x
+        
+        except OverflowError:
+            print("Численный результат за пределами разрешенного диапазона")
+            return 0
 
 
 class Vector(object):
     def __init__(self, vector=[]):
-        # Constructor
-        # Конструктор класса Вектор
+        """
+        Constructor
+        Конструктор класса Вектор
+        """
         
         self.vector = vector
     
     def __mul__(self, other):
-        # Vector multiplication
-        # перегрузка * (произведение векторов)
+        """
+        Vector multiplication
+        перегрузка * (произведение векторов)
+        """
         
         if (type(self) == type(other)):
             other = other.vector
         return self.dot(vector = other)
     
     def __add__(self, other):
-        # Addition of vectors
-        # перегрузка + (сумма векторов)
+        """
+        Addition of vectors
+        перегрузка + (сумма векторов)
+        """
+        
         if (type(self) == type(other)):
             other = other.vector
         return self.add(vector = other)
     
     def __sub__(self, other):
-        # Subtraction of vectors
-        # перегрузка - (разность векторов)
+        """
+        Subtraction of vectors
+        перегрузка - (разность векторов)
+        """
+        
         if (type(self) == type(other)):
             other = other.vector
         return self.sub(vector = other)
     
     def compare(self, other):
-        # Compares the size of the vectors 
-        # Returns True if the vectors are the same size
+        """
+        Compares the size of the vectors 
+        Returns True if the vectors are the same size
         
-        # Сравнение векторов
-        # Возвращает True, если вектора одинакового размера
+        Сравнение векторов
+        Возвращает True, если вектора одинакового размера
+        """
         
         if (type(self) == type(other)):
             other = other.vector
@@ -482,20 +577,26 @@ class Vector(object):
             return False
     
     def get(self):
-        # Return vector
-        # Возвращает вектор
+        """
+        Return vector
+        Возвращает вектор
+        """
         
         return self.vector
     
     def set(self, vector = []):
-        # Set vector
-        # Устонавливает вектор
+        """
+        Set vector
+        Устонавливает вектор
+        """
         
         self.vector = vector
     
     def add(self, vector):
-        # Addition of vectors
-        # Сумма векторов
+        """
+        Addition of vectors
+        Сумма векторов
+        """
         
         if (type(self) == type(vector)):
             vector = vector.vector
@@ -509,8 +610,10 @@ class Vector(object):
             return 0
     
     def sub(self, vector):
-        # Subtraction of vectors
-        # Разность векторов
+        """
+        Subtraction of vectors
+        Разность векторов
+        """
         
         if (type(self) == type(vector)):
             vector = vector.vector
@@ -525,8 +628,10 @@ class Vector(object):
             return 0
     
     def dot(self, vector):
-        # Vector multiplication
-        # Произведение векторов
+        """
+        Vector multiplication
+        Произведение векторов
+        """
         
         if type(vector) == int or type(vector) == float:
             temp = []
@@ -546,8 +651,10 @@ class Vector(object):
                 return 0
         
     def norm1(self):
-        # The first norm of the vector
-        # Первая норма вектора
+        """
+        The first norm of the vector
+        Первая норма вектора
+        """
         
         result = 0
         for i in self.vector:
@@ -556,8 +663,10 @@ class Vector(object):
         return result
     
     def norm2(self):
-        # The second norm of the vector
-        # Вторая норма вектора
+        """
+        The second norm of the vector
+        Вторая норма вектора
+        """
         
         result = 0
         for i in self.vector:
@@ -567,8 +676,10 @@ class Vector(object):
         return math.sqrt(result)
     
     def norm3(self):
-        # The third norm of a vector
-        # Третья норма вектора
+        """
+        The third norm of a vector
+        Третья норма вектора
+        """
         
         vector = []
         
