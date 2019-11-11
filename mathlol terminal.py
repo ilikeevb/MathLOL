@@ -191,7 +191,11 @@ def MatrixAction():
         print("3. Norm 2")
         print("4. Norm E")
         print("5. Norm I")
-        print("6. Save")
+        print("6. LU")
+        print("7. Determinant")
+        print("8. Inverse")
+        print("9. AX = B")
+        print("121. Save")
         print("\n0. Exit")
 
         x = int(input())
@@ -211,13 +215,26 @@ def MatrixAction():
             print("Norm E: ", temp.norm_E())
         elif(x == 5):
             print("Norm I: ", temp.norm_I())
-        elif(x == 6):
+        elif(x == 121):
             save_matrix(temp.matrix)
-        elif(x == 7):
+        elif(x == 6):
             result = temp.lu()
-            print("L", "\t\t"*temp.selfJ, "U")
+            print("L", "\t\t"*temp.J, "U")
             for i in range(len(result[0])):
                 print(result[0][i], "\t\t", result[1][i])
+        elif(x == 7):
+            print("Determinant: ", temp.determinant())
+        elif(x == 8):
+            print("Inverse:")
+            if(temp.inverse() != 0):
+                for i in temp.inverse():
+                    print(i)
+        elif(x == 9):
+            B = input_matrix()
+            result = temp.ax_b(B = B)
+            if(result != 0):
+                for i in result:
+                    print(i)
         elif(x == 0):
             exit = True
         else:
