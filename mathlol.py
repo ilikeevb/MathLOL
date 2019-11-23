@@ -393,26 +393,55 @@ class Matrix(object):
         print(matrix)
         return max(matrix)
     
+    def copy(self, matrix = None):
+        if matrix == None:
+            matrix = self.matrix
+        
+        i = len(matrix)
+        j = len(matrix[0])
+        
+        result = []
+        for i_ in range(i):
+            temp = []
+            for j_ in range(j):
+                temp.append(matrix[i_][j_])
+            result.append(temp)
+        return result
+    
     def lu(self, matrix = None):
         if matrix == None:
             matrix = self.matrix
         
+        print("1")
+        for i in self.matrix:
+            print(i)
+        
         n = len(matrix)
-        U = matrix
+        U = self.copy(matrix)
         L = self.zeroes(n)
 
+        print("2")
+        for i in self.matrix:
+            print(i)
+        
         for i in range(n):
             for j in range(i, n):
                 L[j][i]=U[j][i]/U[i][i];
-
+        
+        print("3")
+        for i in self.matrix:
+            print(i)
+        
         for k in range(1, n):
             for i in range(k-1, n):
                 for j in range(i, n):
-                    L[j][i]=U[j][i]/U[i][i];
+                    L[j][i]=U[j][i]/U[i][i]
             for i in range(k, n):
                 for j in range(k-1, n):
-                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j];
-
+                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j]
+        print("4")
+        for i in self.matrix:
+            print(i)
         # yoda = round(x, 3) 
         L = self.yoda(L)
         U = self.yoda(U)
