@@ -111,6 +111,21 @@ class Matrix(object):
                 temp.append(0)
             A.append(temp)
         return A
+    
+    def checkvector(self, matrix = None):
+        if matrix == None:
+            matrix = self.matrix
+        
+        i = len(matrix)
+        
+        if (type(matrix[0]) == float):
+            return True
+        else:
+            j = len(matrix[0])
+            if(j == 1 and i > 1):
+                return True
+        
+        return False
 
     def yoda(self, matrix = None, n = 3):
         if matrix == None:
@@ -118,11 +133,16 @@ class Matrix(object):
         
         result = []
         
-        for i in matrix:
-            temp = []
-            for j in i:
-                temp.append(round(j, 3))
-            result.append(temp)
+        if self.checkvector(matrix):
+            for i in matrix:
+                result.append(round(i, 3))
+        else:
+            for i in matrix:
+                temp = []
+                for j in i:
+                    temp.append(round(j, 3))
+                result.append(temp)
+        
         return(result)
     
     def transposition(self, matrix = None):
@@ -448,7 +468,7 @@ class Matrix(object):
 
         return L, U
     
-    def Cholesky_Decomposition(self):
+    def cholesky_decomposition(self):
         """
         Cholesky Decomposition
         Разложение Холецкого
@@ -520,7 +540,7 @@ class Matrix(object):
             print("Матрица вырожденная\nОбратная для неё не существует")
             return 0
     
-    def ax_b(self, B, A = None):
+    def ax_b(self, b, A = None):
         """
         The solution to the equation AX = B
         Решение уровнения AX = B
@@ -529,12 +549,12 @@ class Matrix(object):
         if (A == None):
             A = self.matrix
 
-        if(len(A) != len(B)):
+        if(len(A) != len(b)):
             print("Количество строк матриц A и B должны быть одинаковыми")
             return 0
 
         if (self.inverse(A) != None):
-            X = self.dotAB(A = self.inverse(A), B = B)
+            X = self.dotAB(A = self.inverse(A), B = b)
             return X
         else:
             print("Матрица вырожденная\nОбратная для неё не существует")
@@ -566,7 +586,8 @@ class Matrix(object):
 
                 converge = math.sqrt(sum((x_new[i] - x[i]) ** 2 for i in range(n))) <= eps
                 x = x_new
-            return x
+            result = self.yoda(x)
+            return result
         
         except OverflowError:
             print("Численный результат за пределами разрешенного диапазона")
