@@ -328,7 +328,12 @@ class Matrix(object):
                 sum += mul * self.determinant(m, sign * matrix[0][i])
             
             return sum
-        
+    
+    def condition_number(self, matrix = None):
+        if matrix == None:
+            matrix = self.matrix
+        return self.norm_E(matrix=matrix) * self.norm_E(matrix=self.inverse(matrix=matrix))
+    
     def eye(self, n = None):
         """
         Create a unit matrix
@@ -368,7 +373,6 @@ class Matrix(object):
                 temp += abs(i[j])
             matrix.append(temp)
         
-        print(matrix)
         return max(matrix)
     
     def norm2(self):
@@ -381,19 +385,20 @@ class Matrix(object):
         
         return self.dotAB(t_matrix, self.matrix)
     
-    def norm_E(self):
+    def norm_E(self, matrix = None):
         """
         Euclidean norm of the matrix
         Евклидова норма матрицы
         """
-        
+        if matrix == None:
+            matrix = self.matrix
+            
         temp = 0
         
-        for i in range(self.I):
-            for j in range(self.J):
-                temp += abs(self.matrix[i][j])**2
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                temp += abs(matrix[i][j])**2
         
-        print("sqrt("+str(temp)+")")
         return math.sqrt(temp)
     
     def norm_I(self):
@@ -409,8 +414,7 @@ class Matrix(object):
             for j in range(self.J):
                 temp += abs(self.matrix[i][j])
             matrix.append(temp)
-        
-        print(matrix)
+
         return max(matrix)
     
     def copy(self, matrix = None):
@@ -532,7 +536,9 @@ class Matrix(object):
         
         if matrix == None:
             matrix = self.matrix
+        
         determ = self.determinant(matrix = matrix)
+        
         if (determ != 0):
             inverse_matrix = self.dotAn(matrix = self.union_matrix(matrix), n = (1/determ))
             return inverse_matrix
