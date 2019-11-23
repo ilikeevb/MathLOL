@@ -99,6 +99,32 @@ class Matrix(object):
         self.I = len(matrix)
         self.J = len(matrix[0])
     
+    def zeroes(self, i = None, j = None):
+        if j == None:
+            j = i
+
+        A = []
+
+        for i_ in range(i):
+            temp = []
+            for j_ in range(j):
+                temp.append(0)
+            A.append(temp)
+        return A
+
+    def yoda(self, matrix = None, n = 3):
+        if matrix == None:
+            matrix = self.matrix
+        
+        result = []
+        
+        for i in matrix:
+            temp = []
+            for j in i:
+                temp.append(round(j, 3))
+            result.append(temp)
+        return(result)
+    
     def transposition(self, matrix = None):
         """
         The transpose of the matrix
@@ -367,32 +393,30 @@ class Matrix(object):
         print(matrix)
         return max(matrix)
     
-    def lu(self):
-        """
-        LU decomposition
-        LU разложение
-        """
+    def lu(self, matrix = None):
+        if matrix == None:
+            matrix = self.matrix
         
-        n = self.I
-        
-        U = self.get()
-        L = self.eye()
-        P = self.eye()
-        
-        for k in range(n - 1):
-            P_0 = self.eye(n)
-            U_0 = self.eye(n)
-            L_0 = self.eye(n)
-            
-            for i in range(k + 1, n):
-                c = U[i][k] / U[k][k]
-                U_0[i][k] = -c
-                L_0[i][k] = c
-            
-            U = self.dotAB(U_0, U)
-            P = self.dotAB(P_0, P)
-            L = self.dotAB(L, self.dotAB(P_0, L_0))
-        L = self.dotAB(P, L)    
+        n = len(matrix)
+        U = matrix
+        L = self.zeroes(n)
+
+        for i in range(n):
+            for j in range(i, n):
+                L[j][i]=U[j][i]/U[i][i];
+
+        for k in range(1, n):
+            for i in range(k-1, n):
+                for j in range(i, n):
+                    L[j][i]=U[j][i]/U[i][i];
+            for i in range(k, n):
+                for j in range(k-1, n):
+                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j];
+
+        # yoda = round(x, 3) 
+        L = self.yoda(L)
+        U = self.yoda(U)
+
         return L, U
     
     def Cholesky_Decomposition(self):
@@ -687,4 +711,3 @@ class Vector(object):
             vector.append(abs(i))
         
         return max(vector)
-
