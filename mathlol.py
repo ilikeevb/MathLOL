@@ -8,7 +8,6 @@ import math
 class Matrix(object):
     def __init__(self):
         """
-        Constructor
         Конструктор класса Матрица
         """
         
@@ -16,58 +15,32 @@ class Matrix(object):
         self.I = 0
         self.J = 0
     
-    def __mul__(self, other):
+    def get(self):
         """
-        Matrix multiplication
-        перегрузка * (произведение матриц)
+        Возращает матрицу
         """
         
-        if (type(self) == type(other)):
-            other = other.matrix
-        return self.dot(matrix = other)
+        return (self.matrix)
     
-    def __add__(self, other):
+    def set(self, matrix):
         """
-        Addition of matrices
-        перегрузка + (сумма матриц)
+        Устанавливает матрицу
         """
         
-        if (type(self) == type(other)):
-            other = other.matrix
-        return self.add(matrix = other)
+        self.matrix = matrix
+        self.I = len(matrix)
+        self.J = len(matrix[0])
     
-    def __sub__(self, other) :
+    def shape(self, matrix = None):
         """
-        Subtraction of matrices
-        перегрузка - (разность матриц)
+        Возвращает размер матрицы
         """
-        
-        if (type(self) == type(other)):
-            other = other.matrix
-        return self.sub(matrix = other)
-    
-    def compare(self, other):
-        """
-        Compares the size of the matrices 
-        Returns True if the matrices are the same size
-        
-        Сравнивает размеры матриц
-        Возвращает True, если матрицы одинакового размера
-        """
-        
-        if (type(self) == type(other)):
-            other = other.matrix
-            
-        if (len(self.matrix) == len(other)):
-            if (self.size(matrix = self.matrix) == self.size(matrix = other)):
-                return True
-        return False
+        if matrix == None:
+            matrix = self.matrix
+        return (len(matrix), len(matrix[0]))
     
     def size(self, matrix = None):
         """
-        Return True - matrix square NxN
-        Return False - matrix is not square MxN
-        
         True - матрица квадратная NxN
         False - матрица не квадратная MxN
         """
@@ -81,38 +54,60 @@ class Matrix(object):
                 return False
         return True
     
-    def get(self):
+    def copy(self, matrix = None):
         """
-        Return matrix
-        Возращает матрицу
+        Возвращает копию матрицы
         """
+        if matrix == None:
+            matrix = self.matrix
         
-        return (self.matrix)
-    
-    def set(self, matrix):
-        """
-        Set matrix
-        Устанавливает матрицу
-        """
+        i = len(matrix)
+        j = len(matrix[0])
         
-        self.matrix = matrix
-        self.I = len(matrix)
-        self.J = len(matrix[0])
-    
-    def zeroes(self, i = None, j = None):
-        if j == None:
-            j = i
-
-        A = []
-
+        result = []
         for i_ in range(i):
             temp = []
             for j_ in range(j):
-                temp.append(0)
-            A.append(temp)
-        return A
+                temp.append(matrix[i_][j_])
+            result.append(temp)
+        return result
+    
+    def compare(self, other):
+        """
+        Сравнивает матрицы
+        Возвращает True, если матрицы идентичны
+        """
+        
+        if (type(self) == type(other)):
+            other = other.matrix
+            
+        if (len(self.matrix) == len(other)):
+            if (self.size(matrix = self.matrix) == self.size(matrix = other)):
+                shape = self.shape(matrix=self.matrix)
+                for i in range(shape[0]):
+                    for j in range(shape[1]):
+                        if self.matrix[i][j] != other[i][j]:
+                            return False
+        return True
+    
+    def comparesize(self, other):
+        """
+        Сравнивает размеры матриц
+        Возвращает True, если матрицы одинакового размера
+        """
+        
+        if (type(self) == type(other)):
+            other = other.matrix
+            
+        if (len(self.matrix) == len(other)):
+            if (self.size(matrix = self.matrix) == self.size(matrix = other)):
+                return True
+        return False
     
     def checkvector(self, matrix = None):
+        """
+        Проверяет, является ли матрица вектором
+        """
         if matrix == None:
             matrix = self.matrix
         
@@ -126,8 +121,51 @@ class Matrix(object):
                 return True
         
         return False
+    
+    def zeroes(self, i = None, j = None):
+        """
+        Возвращает нулевую матрицу
+        """
+        if j == None:
+            j = i
 
+        result = []
+
+        for i_ in range(i):
+            temp = []
+            for j_ in range(j):
+                temp.append(0)
+            result.append(temp)
+        return result
+    
+    def eye(self, n = None):
+        """
+        Возвращает единичную матрицу
+        """
+        
+        if(n == None):
+            matrix = []
+            for i in range(self.I):
+                temp = []
+                for j in range(self.J):
+                    temp.append(0)
+                temp[i] = 1
+                matrix.append(temp)
+            return(matrix)
+        else:
+            matrix = []
+            for i in range(n):
+                temp = []
+                for j in range(n):
+                    temp.append(0)
+                temp[i] = 1
+                matrix.append(temp)
+            return(matrix)
+    
     def yoda(self, matrix = None, n = 3):
+        """
+        Возвращает матрицу округлив все элементы
+        """
         if matrix == None:
             matrix = self.matrix
         
@@ -145,29 +183,9 @@ class Matrix(object):
         
         return(result)
     
-    def transposition(self, matrix = None):
-        """
-        The transpose of the matrix
-        Транспонирование матрицы
-        """
-        
-        if matrix == None:
-            matrix = self.matrix
-        
-        transpos_matrix = []
-        
-        for j in range(self.J):
-            temp = []
-            for i in range(self.I):
-                temp.append(self.matrix[i][j])
-            transpos_matrix.append(temp)
-        
-        return transpos_matrix
-    
     def minor(self, i, j, matrix = None):
         """
-        Minor of the matrix
-        Минор матрицы
+        Возвращает минор матрицы
         """
         
         if matrix == None:
@@ -179,129 +197,8 @@ class Matrix(object):
         
         return matrix_minor
     
-    def add(self, matrix):
-        """
-        Addition of matrices
-        Сумма матриц
-        """
-        
-        if (type(self) == type(matrix)):
-            matrix = matrix.matrix
-            
-        if self.compare(matrix):
-            sum_matrix = []
-            for i in range(len(self.matrix)):
-                temp = []
-                for j in range(len(self.matrix[i])):
-                    temp.append((self.matrix[i][j] + matrix[i][j]))
-                sum_matrix.append(temp)
-            return sum_matrix
-        else:
-            # You can not add matrices of different lengths
-            print("Нельзя складывать матрицы разной длинны")
-            return 0
-    
-    def sub(self, matrix):
-        """
-        Subtraction of matrices
-        Разность матриц
-        """
-        
-        if (type(self) == type(matrix)):
-            matrix = matrix.matrix
-            
-        if self.compare(matrix):
-            sum_matrix = []
-            for i in range(len(self.matrix)):
-                temp = []
-                for j in range(len(self.matrix[i])):
-                    temp.append((self.matrix[i][j] - matrix[i][j]))
-                sum_matrix.append(temp)
-            return sum_matrix
-        else:
-            # You cannot subtract matrices of different lengths
-            print("Нельзя вычитать матрицы разной длинны")
-            return 0
-    
-    def dot(self, matrix):
-        """
-        Matrix multiplication
-        Произведение матриц
-        """
-        
-        if type(matrix) == int or type(matrix) == float:
-            return(self.dotAn(matrix=self.matrix, n = matrix))
-        else:
-            if (type(self) == type(matrix)):
-                matrix = matrix.matrix
-        
-            mult = []
-
-            try:
-                for i in range(0,len(self.matrix)):
-                    temp=[]
-                    for j in range(0,len(matrix[0])):
-                        s = 0
-                        for k in range(0,len(self.matrix[0])):
-                            s += self.matrix[i][k]*matrix[k][j]
-                        temp.append(round(s, 2))
-                    mult.append(temp)
-                return mult
-
-            except IndexError:
-                print("Index Error")
-    
-    def dotAn(self, matrix, n):
-        """
-        Matrix by the number multiplication
-        Произведение матрицы на число
-        """
-        
-        if type(n) == int or type(n) == float:
-            mult = []
-            for i in matrix:
-                temp = []
-                for j in i:
-                    temp.append(round(j*n, 2))
-                mult.append(temp)
-            return mult
-        
-    def dotAB(self, A, B):
-        """
-        Multiplication two given matrices
-        Произведение двух заданных матриц
-        """
-        
-        if (type(self) == type(A)):
-            A = A.matrix
-        if (type(self) == type(B)):
-            B = B.matrix
-        
-        if (type(A) == int or type(A) == float):
-                return(self.dotAn(matrix = B, n = A))
-        if (type(B) == int or type(B) == float):
-                return(self.dotAn(matrix = A, n = B))
-        else:
-            mult = []
-
-            try:
-                for i in range(0,len(A)):
-                    temp=[]
-                    for j in range(0,len(B[0])):
-                        s = 0
-                        for k in range(0,len(A[0])):
-                            s += A[i][k]*B[k][j]
-                        temp.append(round(s, 2))
-                    mult.append(temp)
-                return mult
-
-            except IndexError:
-                print("Index Error")
-                return 0
-    
     def determinant(self, matrix = None, mul = 1):
         """
-        Matrix determinant
         Определитель матрицы
         """
         
@@ -329,184 +226,173 @@ class Matrix(object):
             
             return sum
     
+
+    def transposition(self, matrix = None):
+        """
+        Транспонирование матрицы
+        """
+        
+        if matrix == None:
+            matrix = self.matrix
+        
+        transpos_matrix = []
+        
+        for j in range(self.J):
+            temp = []
+            for i in range(self.I):
+                temp.append(self.matrix[i][j])
+            transpos_matrix.append(temp)
+        
+        return transpos_matrix
+    
+    def add(self, matrix):
+        """
+        Сумма матриц
+        """
+        
+        if (type(self) == type(matrix)):
+            matrix = matrix.matrix
+            
+        if self.comparesize(matrix):
+            sum_matrix = []
+            for i in range(len(self.matrix)):
+                temp = []
+                for j in range(len(self.matrix[i])):
+                    temp.append((self.matrix[i][j] + matrix[i][j]))
+                sum_matrix.append(temp)
+            return sum_matrix
+        else:
+            print("Нельзя складывать матрицы разной длинны")
+            return 0
+    
+    def __add__(self, other):
+        """
+        Перегрузка + (сумма матриц)
+        """
+        
+        if (type(self) == type(other)):
+            other = other.matrix
+        return self.add(matrix = other)
+    
+    def sub(self, matrix):
+        """
+        Разность матриц
+        """
+        
+        if (type(self) == type(matrix)):
+            matrix = matrix.matrix
+            
+        if self.comparesize(matrix):
+            sum_matrix = []
+            for i in range(len(self.matrix)):
+                temp = []
+                for j in range(len(self.matrix[i])):
+                    temp.append((self.matrix[i][j] - matrix[i][j]))
+                sum_matrix.append(temp)
+            return sum_matrix
+        else:
+            print("Нельзя вычитать матрицы разной длинны")
+            return 0
+    
+    def __sub__(self, other) :
+        """
+        Перегрузка - (разность матриц)
+        """
+        
+        if (type(self) == type(other)):
+            other = other.matrix
+        return self.sub(matrix = other)
+    
+    def dot(self, matrix):
+        """
+        Произведение матриц
+        """
+        
+        if type(matrix) == int or type(matrix) == float:
+            return(self.dotAn(matrix=self.matrix, n = matrix))
+        else:
+            if (type(self) == type(matrix)):
+                matrix = matrix.matrix
+        
+            mult = []
+
+            try:
+                for i in range(0,len(self.matrix)):
+                    temp=[]
+                    for j in range(0,len(matrix[0])):
+                        s = 0
+                        for k in range(0,len(self.matrix[0])):
+                            s += self.matrix[i][k]*matrix[k][j]
+                        temp.append(round(s, 2))
+                    mult.append(temp)
+                return mult
+            except IndexError:
+                print("Index Error")
+    
+    def __mul__(self, other):
+        """
+        Перегрузка * (произведение матриц)
+        """
+        
+        if (type(self) == type(other)):
+            other = other.matrix
+        return self.dot(matrix = other)
+    
+    def dotAn(self, matrix, n):
+        """
+        Произведение матрицы на число
+        """
+        
+        if type(n) == int or type(n) == float:
+            mult = []
+            for i in matrix:
+                temp = []
+                for j in i:
+                    temp.append(round(j*n, 2))
+                mult.append(temp)
+            return mult
+        
+    def dotAB(self, A, B):
+        """
+        Произведение двух заданных матриц
+        """
+        
+        if (type(self) == type(A)):
+            A = A.matrix
+        if (type(self) == type(B)):
+            B = B.matrix
+        
+        if (type(A) == int or type(A) == float):
+                return(self.dotAn(matrix = B, n = A))
+        if (type(B) == int or type(B) == float):
+                return(self.dotAn(matrix = A, n = B))
+        else:
+            mult = []
+
+            try:
+                for i in range(0,len(A)):
+                    temp=[]
+                    for j in range(0,len(B[0])):
+                        s = 0
+                        for k in range(0,len(A[0])):
+                            s += A[i][k]*B[k][j]
+                        temp.append(round(s, 2))
+                    mult.append(temp)
+                return mult
+            except IndexError:
+                print("Index Error")
+                return 0
+    
     def condition_number(self, matrix = None):
+        """
+        Возвращает число обусловленности
+        """
         if matrix == None:
             matrix = self.matrix
         return self.norm_E(matrix=matrix) * self.norm_E(matrix=self.inverse(matrix=matrix))
     
-    def eye(self, n = None):
-        """
-        Create a unit matrix
-        Создать единичную матрицу
-        """
-        
-        if(n == None):
-            matrix = []
-            for i in range(self.I):
-                temp = []
-                for j in range(self.J):
-                    temp.append(0)
-                temp[i] = 1
-                matrix.append(temp)
-            return(matrix)
-        else:
-            matrix = []
-            for i in range(n):
-                temp = []
-                for j in range(n):
-                    temp.append(0)
-                temp[i] = 1
-                matrix.append(temp)
-            return(matrix)
-    
-    def norm1(self):
-        """
-        The first norm of the matrix
-        Первая норма матрицы
-        """
-        
-        matrix = []
-        
-        for j in range(self.J):
-            temp = 0
-            for i in self.matrix:
-                temp += abs(i[j])
-            matrix.append(temp)
-        
-        return max(matrix)
-    
-    def norm2(self):
-        """
-        The second norm of the matrix
-        Вторая норма матрицы
-        """
-        
-        t_matrix = self.transposition()
-        
-        return self.dotAB(t_matrix, self.matrix)
-    
-    def norm_E(self, matrix = None):
-        """
-        Euclidean norm of the matrix
-        Евклидова норма матрицы
-        """
-        if matrix == None:
-            matrix = self.matrix
-            
-        temp = 0
-        
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                temp += abs(matrix[i][j])**2
-        
-        return math.sqrt(temp)
-    
-    def norm_I(self):
-        """
-        Infinite norm of matrix
-        Бесконечная норма матрицы
-        """
-        
-        matrix = []
-        
-        for i in range(self.I):
-            temp = 0
-            for j in range(self.J):
-                temp += abs(self.matrix[i][j])
-            matrix.append(temp)
-
-        return max(matrix)
-    
-    def copy(self, matrix = None):
-        if matrix == None:
-            matrix = self.matrix
-        
-        i = len(matrix)
-        j = len(matrix[0])
-        
-        result = []
-        for i_ in range(i):
-            temp = []
-            for j_ in range(j):
-                temp.append(matrix[i_][j_])
-            result.append(temp)
-        return result
-    
-    def lu(self, matrix = None):
-        if matrix == None:
-            matrix = self.matrix
-        
-        print("1")
-        for i in self.matrix:
-            print(i)
-        
-        n = len(matrix)
-        U = self.copy(matrix)
-        L = self.zeroes(n)
-
-        print("2")
-        for i in self.matrix:
-            print(i)
-        
-        for i in range(n):
-            for j in range(i, n):
-                L[j][i]=U[j][i]/U[i][i];
-        
-        print("3")
-        for i in self.matrix:
-            print(i)
-        
-        for k in range(1, n):
-            for i in range(k-1, n):
-                for j in range(i, n):
-                    L[j][i]=U[j][i]/U[i][i]
-            for i in range(k, n):
-                for j in range(k-1, n):
-                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j]
-        print("4")
-        for i in self.matrix:
-            print(i)
-        # yoda = round(x, 3) 
-        L = self.yoda(L)
-        U = self.yoda(U)
-
-        return L, U
-    
-    def cholesky_decomposition(self):
-        """
-        Cholesky Decomposition
-        Разложение Холецкого
-        """
-        
-        n = self.I
-        
-        lower = [[0 for x in range(n)]  
-                    for y in range(n)]; 
-        
-        # Decomposition of matrix
-        # Разложение матрицы
-        try:
-            for i in range(n):  
-                for j in range(i + 1):  
-                    sum1 = 0
-                    
-                    if (j == i):  
-                        for k in range(j): 
-                            sum1 += pow(lower[j][k], 2); 
-                        lower[j][j] = round(math.sqrt(self.matrix[j][j] - sum1), 2) 
-                    else:   
-                        for k in range(j):
-                            sum1 += (lower[i][k] *lower[j][k]) 
-                        if(lower[j][j] > 0): 
-                            lower[i][j] = round((self.matrix[i][j] - sum1) / lower[j][j], 2)
-            return lower
-        except ValueError:
-            print("Ошибка в вычислениях. Корень из отрицательного числа не существует")
-            return 0
-    
     def union_matrix(self, matrix = None):
         """
-        Union matrix
         Союзная матрица
         """
         
@@ -530,7 +416,6 @@ class Matrix(object):
     
     def inverse(self, matrix = None):
         """
-        Inverse matrix
         Обратная матрица
         """
         
@@ -546,9 +431,133 @@ class Matrix(object):
             print("Матрица вырожденная\nОбратная для неё не существует")
             return 0
     
+    def norm1(self):
+        """
+        Первая норма матрицы
+        """
+        
+        matrix = []
+        
+        for j in range(self.J):
+            temp = 0
+            for i in self.matrix:
+                temp += abs(i[j])
+            matrix.append(temp)
+        
+        return max(matrix)
+    
+    def norm2(self):
+        """
+        Вторая норма матрицы
+        """
+        
+        t_matrix = self.transposition()
+        
+        return self.dotAB(t_matrix, self.matrix)
+    
+    def norm_E(self, matrix = None):
+        """
+        Евклидова норма матрицы
+        """
+        if matrix == None:
+            matrix = self.matrix
+            
+        temp = 0
+        
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                temp += abs(matrix[i][j])**2
+        
+        return math.sqrt(temp)
+    
+    def norm_I(self):
+        """
+        Бесконечная норма матрицы
+        """
+        
+        matrix = []
+        
+        for i in range(self.I):
+            temp = 0
+            for j in range(self.J):
+                temp += abs(self.matrix[i][j])
+            matrix.append(temp)
+
+        return max(matrix)
+    
+    def lu(self, matrix = None):
+        """
+        LU разложение
+        """
+        
+        if matrix == None:
+            matrix = self.matrix
+
+        for i in self.matrix:
+            print(i)
+        
+        n = len(matrix)
+        U = self.copy(matrix)
+        L = self.zeroes(n)
+
+        for i in self.matrix:
+            print(i)
+        
+        for i in range(n):
+            for j in range(i, n):
+                L[j][i]=U[j][i]/U[i][i];
+        
+        for i in self.matrix:
+            print(i)
+        
+        for k in range(1, n):
+            for i in range(k-1, n):
+                for j in range(i, n):
+                    L[j][i]=U[j][i]/U[i][i]
+            for i in range(k, n):
+                for j in range(k-1, n):
+                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j]
+
+        for i in self.matrix:
+            print(i)
+
+        L = self.yoda(L)
+        U = self.yoda(U)
+
+        return L, U
+    
+    def cholesky_decomposition(self):
+        """
+        Разложение Холецкого
+        """
+        
+        n = self.I
+        
+        lower = [[0 for x in range(n)]  
+                    for y in range(n)]; 
+        
+        # Разложение матрицы
+        try:
+            for i in range(n):  
+                for j in range(i + 1):  
+                    sum1 = 0
+                    
+                    if (j == i):  
+                        for k in range(j): 
+                            sum1 += pow(lower[j][k], 2); 
+                        lower[j][j] = round(math.sqrt(self.matrix[j][j] - sum1), 2) 
+                    else:   
+                        for k in range(j):
+                            sum1 += (lower[i][k] *lower[j][k]) 
+                        if(lower[j][j] > 0): 
+                            lower[i][j] = round((self.matrix[i][j] - sum1) / lower[j][j], 2)
+            return lower
+        except ValueError:
+            print("Ошибка в вычислениях. Корень из отрицательного числа не существует")
+            return 0
+    
     def ax_b(self, b, A = None):
         """
-        The solution to the equation AX = B
         Решение уровнения AX = B
         """
         if (len(b[0]) > 1):
@@ -571,7 +580,6 @@ class Matrix(object):
     
     def seidel(self, b, eps = 0.0001, A = None):
         """
-        Seidel method
         Метод Зейделя
         
         eps - точность (условие выхода)
@@ -609,48 +617,25 @@ class Matrix(object):
 class Vector(object):
     def __init__(self, vector=[]):
         """
-        Constructor
         Конструктор класса Вектор
         """
-        
         self.vector = vector
     
-    def __mul__(self, other):
+    def get(self):
         """
-        Vector multiplication
-        перегрузка * (произведение векторов)
+        Возвращает вектор
         """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.dot(vector = other)
+        return self.vector
     
-    def __add__(self, other):
+    def set(self, vector = []):
         """
-        Addition of vectors
-        перегрузка + (сумма векторов)
+        Устонавливает вектор
         """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.add(vector = other)
+        self.vector = vector
     
-    def __sub__(self, other):
+    def comparesize(self, other):
         """
-        Subtraction of vectors
-        перегрузка - (разность векторов)
-        """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.sub(vector = other)
-    
-    def compare(self, other):
-        """
-        Compares the size of the vectors 
-        Returns True if the vectors are the same size
-        
-        Сравнение векторов
+        Сравнивает пазмеры векторов
         Возвращает True, если вектора одинакового размера
         """
         
@@ -662,31 +647,14 @@ class Vector(object):
         else:
             return False
     
-    def get(self):
-        """
-        Return vector
-        Возвращает вектор
-        """
-        
-        return self.vector
-    
-    def set(self, vector = []):
-        """
-        Set vector
-        Устонавливает вектор
-        """
-        
-        self.vector = vector
-    
     def add(self, vector):
         """
-        Addition of vectors
         Сумма векторов
         """
         
         if (type(self) == type(vector)):
             vector = vector.vector
-        if self.compare(vector):
+        if self.comparesize(vector):
             temp = []
             for i in range(len(vector)):
                 temp.append(self.vector[i] + vector[i])
@@ -695,16 +663,24 @@ class Vector(object):
             print("Размеры векторов не равны")
             return 0
     
+    def __add__(self, other):
+        """
+        Перегрузка + (сумма векторов)
+        """
+        
+        if (type(self) == type(other)):
+            other = other.vector
+        return self.add(vector = other)
+    
     def sub(self, vector):
         """
-        Subtraction of vectors
         Разность векторов
         """
         
         if (type(self) == type(vector)):
             vector = vector.vector
         
-        if self.compare(vector):
+        if self.comparesize(vector):
             temp = []
             for i in range(len(vector)):
                 temp.append(self.vector[i] - vector[i])
@@ -713,9 +689,17 @@ class Vector(object):
             print("Размеры векторов не равны")
             return 0
     
+    def __sub__(self, other):
+        """
+        Перегрузка - (разность векторов)
+        """
+        
+        if (type(self) == type(other)):
+            other = other.vector
+        return self.sub(vector = other)
+    
     def dot(self, vector):
         """
-        Vector multiplication
         Произведение векторов
         """
         
@@ -735,10 +719,18 @@ class Vector(object):
             else:
                 print("Размеры векторов не равны")
                 return 0
+    
+    def __mul__(self, other):
+        """
+        Перегрузка * (произведение векторов)
+        """
         
+        if (type(self) == type(other)):
+            other = other.vector
+        return self.dot(vector = other)
+    
     def norm1(self):
         """
-        The first norm of the vector
         Первая норма вектора
         """
         
@@ -750,7 +742,6 @@ class Vector(object):
     
     def norm2(self):
         """
-        The second norm of the vector
         Вторая норма вектора
         """
         
@@ -763,7 +754,6 @@ class Vector(object):
     
     def norm3(self):
         """
-        The third norm of a vector
         Третья норма вектора
         """
         
