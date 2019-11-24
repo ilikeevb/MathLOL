@@ -117,15 +117,11 @@ class mathlol(object):
         if matrix == None:
             matrix = self.matrix
         
-        i = len(matrix)
-        
-        if (type(matrix[0]) == float):
+        if (type(matrix[0]) != list):
             return True
         else:
-            j = len(matrix[0])
-            if(j == 1 and i > 1):
+            if len(matrix[0]) == 1 or len(matrix) == 1:
                 return True
-        
         return False
     
     def zeroes(self, i = None, j = None):
