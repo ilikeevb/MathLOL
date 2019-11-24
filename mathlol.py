@@ -4,7 +4,7 @@
 import os
 import math
 
-class Matrix(object):
+class mathlol(object):
     def __init__(self):
         """
         Конструктор класса Матрица
@@ -25,7 +25,9 @@ class Matrix(object):
         """
         Устанавливает матрицу
         """
-        
+        if (type(matrix[0]) != list):
+            matrix = [matrix]
+          
         self.matrix = matrix
         self.I = len(matrix)
         self.J = len(matrix[0])
@@ -450,6 +452,17 @@ class Matrix(object):
         
         return max(matrix)
     
+    def norm1_vector(self):
+        """
+        Первая норма вектора
+        """
+        
+        result = 0
+        for i in self.matrix[0]:
+            result += abs(i)
+        
+        return result
+    
     def norm2(self):
         """
         Вторая норма матрицы
@@ -458,6 +471,28 @@ class Matrix(object):
         t_matrix = self.transposition()
         
         return self.dotAB(t_matrix, self.matrix)
+    
+    def norm2_vector(self):
+        """
+        Вторая норма вектора
+        """
+        
+        result = 0
+        for i in self.matrix[0]:
+            result += abs(i**2)
+        return math.sqrt(result)
+    
+    def norm3_vector(self):
+        """
+        Третья норма вектора
+        """
+        
+        vector = []
+        
+        for i in self.matrix[0]:
+            vector.append(abs(i))
+        
+        return max(vector)
     
     def norm_E(self, matrix = None):
         """
@@ -496,23 +531,14 @@ class Matrix(object):
         
         if matrix == None:
             matrix = self.matrix
-
-        for i in self.matrix:
-            print(i)
         
         n = len(matrix)
         U = self.copy(matrix)
         L = self.zeroes(n)
-
-        for i in self.matrix:
-            print(i)
         
         for i in range(n):
             for j in range(i, n):
                 L[j][i]=U[j][i]/U[i][i];
-        
-        for i in self.matrix:
-            print(i)
         
         for k in range(1, n):
             for i in range(k-1, n):
@@ -521,9 +547,6 @@ class Matrix(object):
             for i in range(k, n):
                 for j in range(k-1, n):
                     U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j]
-
-        for i in self.matrix:
-            print(i)
 
         L = self.yoda(L)
         U = self.yoda(U)
@@ -616,154 +639,3 @@ class Matrix(object):
         except OverflowError:
             print("Численный результат за пределами разрешенного диапазона")
             return 0
-
-
-class Vector(object):
-    def __init__(self, vector=[]):
-        """
-        Конструктор класса Вектор
-        """
-        self.vector = vector
-    
-    def get(self):
-        """
-        Возвращает вектор
-        """
-        return self.vector
-    
-    def set(self, vector = []):
-        """
-        Устонавливает вектор
-        """
-        self.vector = vector
-    
-    def comparesize(self, other):
-        """
-        Сравнивает пазмеры векторов
-        Возвращает True, если вектора одинакового размера
-        """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-            
-        if (len(self.vector) == len(other)):
-            return True
-        else:
-            return False
-    
-    def add(self, vector):
-        """
-        Сумма векторов
-        """
-        
-        if (type(self) == type(vector)):
-            vector = vector.vector
-        if self.comparesize(vector):
-            temp = []
-            for i in range(len(vector)):
-                temp.append(self.vector[i] + vector[i])
-            return temp
-        else:
-            print("Размеры векторов не равны")
-            return 0
-    
-    def __add__(self, other):
-        """
-        Перегрузка + (сумма векторов)
-        """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.add(vector = other)
-    
-    def sub(self, vector):
-        """
-        Разность векторов
-        """
-        
-        if (type(self) == type(vector)):
-            vector = vector.vector
-        
-        if self.comparesize(vector):
-            temp = []
-            for i in range(len(vector)):
-                temp.append(self.vector[i] - vector[i])
-            return temp
-        else:
-            print("Размеры векторов не равны")
-            return 0
-    
-    def __sub__(self, other):
-        """
-        Перегрузка - (разность векторов)
-        """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.sub(vector = other)
-    
-    def dot(self, vector):
-        """
-        Произведение векторов
-        """
-        
-        if type(vector) == int or type(vector) == float:
-            temp = []
-            for i in range(len(self.vector)):
-                temp.append(round(self.vector[i] * vector, 2))
-            return temp
-        else:
-            if (type(self) == type(vector)):
-                vector = vector.vector
-            if self.compare(vector):
-                temp = []
-                for i in range(len(vector)):
-                    temp.append(round(self.vector[i] * vector[i], 2))
-                return temp
-            else:
-                print("Размеры векторов не равны")
-                return 0
-    
-    def __mul__(self, other):
-        """
-        Перегрузка * (произведение векторов)
-        """
-        
-        if (type(self) == type(other)):
-            other = other.vector
-        return self.dot(vector = other)
-    
-    def norm1(self):
-        """
-        Первая норма вектора
-        """
-        
-        result = 0
-        for i in self.vector:
-            result += abs(i)
-        
-        return result
-    
-    def norm2(self):
-        """
-        Вторая норма вектора
-        """
-        
-        result = 0
-        for i in self.vector:
-            result += abs(i**2)
-        print("sqrt("+str(result)+")")
-        
-        return math.sqrt(result)
-    
-    def norm3(self):
-        """
-        Третья норма вектора
-        """
-        
-        vector = []
-        
-        for i in self.vector:
-            vector.append(abs(i))
-        
-        return max(vector)
