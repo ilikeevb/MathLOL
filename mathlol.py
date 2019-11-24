@@ -551,6 +551,9 @@ class Matrix(object):
         The solution to the equation AX = B
         Решение уровнения AX = B
         """
+        if (len(b[0]) > 1):
+            print("Неправильный вид вектора B \nВектор B должен быть матрица-столбец")
+            return 0
         
         if (A == None):
             A = self.matrix
@@ -573,6 +576,9 @@ class Matrix(object):
         
         eps - точность (условие выхода)
         """
+        if (len(b[0]) > 1):
+            print("Неправильный вид вектора B \nВектор B должен быть матрица-столбец")
+            return 0
         
         if (A == None):
             A = self.matrix
