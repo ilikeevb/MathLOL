@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import os
-import copy
 import math
 
 class Matrix(object):
@@ -61,15 +60,20 @@ class Matrix(object):
         if matrix == None:
             matrix = self.matrix
         
-        i = len(matrix)
-        j = len(matrix[0])
-        
         result = []
-        for i_ in range(i):
-            temp = []
-            for j_ in range(j):
-                temp.append(matrix[i_][j_])
-            result.append(temp)
+        
+        if self.checkvector(matrix = matrix):
+            for i in matrix:
+                result.append(i)
+        else:
+            i = len(matrix)
+            j = len(matrix[0])
+
+            for i_ in range(i):
+                temp = []
+                for j_ in range(j):
+                    temp.append(matrix[i_][j_])
+                result.append(temp)
         return result
     
     def compare(self, other):
@@ -597,7 +601,7 @@ class Matrix(object):
         try:
             converge = False
             while not converge:
-                x_new = copy.copy(x)
+                x_new = self.copy(x)
 
                 for i in range(n):
                     s1 = sum(A[i][j] * x_new[j] for j in range(i))
