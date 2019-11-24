@@ -175,6 +175,8 @@ def vector_menu(temp):
         print("Norm 2: ", temp.norm2_vector())   
     elif(x == 4):
         print("Norm 3: ", temp.norm3_vector())
+    elif(x == 121):
+        save_matrix(temp.matrix)
     elif(x == 0):
         return True
     else:
