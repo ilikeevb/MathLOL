@@ -4,9 +4,9 @@
 [Примеры использования модуля (Exampes)](https://github.com/ilikeevb/MathLOL/blob/master/example.ipynb)
 
 ```python
-from mathlol import Matrix, Vector
+from mathlol import mathlol
 
-matrix = Matrix()
+matrix = mathlol()
 matrix.set([[5, -2, -10], [0, -6, -2], [6, 9, 2]])
 
 print("Матрица: ", matrix.get())
