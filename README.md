@@ -27,3 +27,4 @@ L, U = matrix.lu()
 print("L: ", L)
 print("U: ", L)
 ```
+terminal.py - работа с матрицами в терминале 
