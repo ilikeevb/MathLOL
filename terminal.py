@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import os
+from sys import platform
 from mathlol import mathlol
 
 def naruto():
@@ -54,7 +55,7 @@ def naruto():
         print(i)
 
 def input_matrix():
-    os.system("clear")    
+    os.system(comand)    
     
     I = int(input("Число строк: "))
     J = int(input("Число столбцов: "))
@@ -64,7 +65,7 @@ def input_matrix():
     for i in range(I):
         tempMatrix = []
         for j in range(J):
-            os.system("clear")
+            os.system(comand)
             try:
                 if (len(matrix) >= 1):
                     for i in matrix:
@@ -78,12 +79,12 @@ def input_matrix():
                 pass
         matrix.append(tempMatrix)    
         
-    os.system("clear")
+    os.system(comand)
     return matrix
 
 def read_matrix():
     #читать матрицу из файла
-    os.system('clear')
+    os.system(comand)
     
     try:    
         x = os.listdir("data/matrix")
@@ -107,7 +108,7 @@ def read_matrix():
             temp.append(float(str_temp[j]))
         matrix.append(temp)
     
-    os.system('clear')      
+    os.system(comand)   
     return matrix
     
 def save_matrix(matrix):
@@ -155,7 +156,7 @@ def matrix_menu(temp):
     print("\n0. Exit")
 
     x = int(input())
-    os.system('clear')
+    os.system(comand)
     if(x == 1):
         print("Matrix: ")
         for i in temp.matrix:
@@ -217,7 +218,7 @@ def vector_menu(temp):
     print("\n0. Exit")
 
     x = int(input())
-    os.system('clear')
+    os.system(comand)
     if(x == 1):
         print("Matrix: ")
         for i in temp.matrix:
@@ -248,7 +249,12 @@ def MatrixAction():
         else:
             exit = matrix_menu(temp)
 
-os.system("clear")
+
+if platform == "linux" or platform == "linux2":
+	comand = "clear"
+else: comand = "cls"
+
+os.system(comand)
 
 print("MathLOL v1.0")
 print("By Ilikeev Bilal and Gainullin Fidan")
@@ -264,9 +270,9 @@ while(x != "0"):
     x = input()
 
     if(x == "0"):
-        os.system('clear')
+        os.system(comand)
         print("May the Force be with you!")
     else:
-        os.system('clear')
+        os.system(comand)
         MatrixAction()
 input()
