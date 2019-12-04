@@ -151,6 +151,7 @@ def matrix_menu(temp):
     print("9. AX = B")
     print("10. Zeidel")
     print("11. Cholevsky")
+    print("12. Число обусловленности")
     print("\n")
     print("121. Save")
     print("\n0. Exit")
@@ -200,6 +201,9 @@ def matrix_menu(temp):
                 print(i)
     elif(x == 11):
         result = temp.cholesky_decomposition()
+        print(result)
+    elif(x == 12):
+        result = temp.condition_number()
         print(result)
     elif(x == 0):
         return True
