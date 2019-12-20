@@ -1,7 +1,7 @@
 # MathLOL
 **MathLOL** - python модуль для работы с матрицами и векторами без использования NumPy
 
-[Примеры использования модуля (Exampes)](https://github.com/ilikeevb/MathLOL/blob/master/example.ipynb)
+[Примеры использования модуля (Example)](https://github.com/ilikeevb/MathLOL/blob/master/example.ipynb)
 
 ```python
 from mathlol import mathlol
