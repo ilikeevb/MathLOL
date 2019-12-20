@@ -5,14 +5,22 @@ import os
 import math
 
 class mathlol(object):
-    def __init__(self):
+    def __init__(self, matrix = None):
         """
         Конструктор класса Матрица
         """
         
-        self.matrix = None
-        self.I = 0
-        self.J = 0
+        if matrix is not None: 
+            if (type(matrix[0]) != list):
+                matrix = [matrix]
+          
+            self.matrix = matrix
+            self.I = len(matrix)
+            self.J = len(matrix[0])
+        else: 
+            self.matrix = None
+            self.I = 0
+            self.J = 0
     
     def get(self):
         """
