@@ -6,8 +6,7 @@
 ```python
 from mathlol import mathlol
 
-matrix = mathlol()
-matrix.set([[5, -2, -10], [0, -6, -2], [6, 9, 2]])
+matrix = mathlol([[5, -2, -10], [0, -6, -2], [6, 9, 2]])
 
 print("Матрица: ", matrix.get())
 
