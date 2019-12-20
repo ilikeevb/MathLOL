@@ -57,9 +57,19 @@ def naruto():
 def input_matrix():
     os.system(comand)    
     
-    I = int(input("Число строк: "))
-    J = int(input("Число столбцов: "))
-    
+    try:
+        I = int(input("Число строк: "))
+    except:
+        print("Некорректный ввод")
+        print("Число строк = 3")
+        I = 3
+    try:
+        J = int(input("Число столбцов: "))
+    except: 
+        print("Некорректный ввод")
+        print("Число столбцов = 3")
+        J = 3
+        
     matrix = []
         
     for i in range(I):
@@ -87,9 +97,9 @@ def read_matrix():
     os.system(comand)
     
     try:    
-        x = os.listdir("data/matrix")
+        x = os.listdir("data/")
     except:
-        print("Папка data/matrix/ не найдена")
+        print("Папка data/ не найдена")
         return 0
     
     for i in range(len(x)):
@@ -97,7 +107,12 @@ def read_matrix():
     
     matrix = []
     
-    ReadFile = open("data/matrix/" + x[int(input("Open: "))-1], 'r')
+    try:
+        ReadFile = open("data/" + x[int(input("Имя файла: "))-1], 'r')
+    except:
+        print("Некорректный ввод!")
+        return read_matrix()
+    
     string = ReadFile.read()
     string = string.split("?")
 
@@ -114,12 +129,13 @@ def read_matrix():
 def save_matrix(matrix):
     #сохранить матрицу в файл
     try:
-        with open("data/matrix/"+ input("Save. File name: ") +".txt", 'w') as f:
+        filename = ("data/"+ input("Сохранение. Имя файла: ") +".txt")
+        with open(filename, 'w') as f:
             for item in matrix:
                 f.write("?")
                 for i in item:
                     f.write("!"+str(i))
-        print("Successfully Save")
+        print("Файл " + filename.split(".")[0] + " сохранён")
     except:
         print("Не удалось сохранить файл")
 
@@ -132,114 +148,121 @@ def MatrixReadInput():
     print("1. Открыть файл")
     print("2. Ввести матрицу")
     
-    x = int(input())
-    if(x == 1):
-        return(read_matrix())
-    if(x == 2):
-        return(input_matrix())
+    x = " "
+    while(x != "1" or x != "2"):
+        x = input()
+        if(x == "1"):
+            return(read_matrix())
+        if(x == "2"):
+            return(input_matrix())
 
 def matrix_menu(temp):
     print("\n")
-    print("1. Show Matrix")
-    print("2. Norm 1")
-    print("3. Norm 2")
-    print("4. Norm E")
-    print("5. Norm I")
-    print("6. LU")
-    print("7. Determinant")
-    print("8. Inverse")
+    print("1. Вывести матрицу")
+    print("2. 1 норма")
+    print("3. 2 норма")
+    print("4. Евклидова норма")
+    print("5. Бесконечная норма")
+    print("6. LU разложение")
+    print("7. Определитель")
+    print("8. Обратная матрица")
     print("9. AX = B")
-    print("10. Zeidel")
-    print("11. Cholevsky")
+    print("10. Метод Зейделя")
+    print("11. Метод Холецкого")
     print("12. Число обусловленности")
     print("\n")
-    print("121. Save")
-    print("\n0. Exit")
+    print("121. Сохранить матрицу")
+    print("\n0. Выйти")
 
-    x = int(input())
+    x = input()
     os.system(comand)
-    if(x == 1):
-        print("Matrix: ")
+    if(x == "1"):
+        print("Матрица: ")
         for i in temp.matrix:
             print(i)
-    elif(x == 2):
-        print("Norm 1: ", temp.norm1())
-    elif(x == 3):
-        print("Norm 2: ")
+    elif(x == "2"):
+        print("1 норма: ", temp.norm1())
+    elif(x == "3"):
+        print("2 норма: ")
         result = temp.norm2()
         for i in result:
             print(i)
-    elif(x == 4):
-        print("Norm E: ", temp.norm_E())
-    elif(x == 5):
-        print("Norm I: ", temp.norm_I())
-    elif(x == 121):
+    elif(x == "4"):
+        print("Евклидова норма: ", temp.norm_E())
+    elif(x == "5"):
+        print("Бесконечная норма: ", temp.norm_I())
+    elif(x == "121"):
         save_matrix(temp.matrix)
-    elif(x == 6):
+    elif(x == "6"):
         result = temp.lu()
-        print("L", " \t "*temp.J, "U")
+        print("L: ")
         for i in range(len(result[0])):
-            print(result[0][i], "\t\t", result[1][i])
-    elif(x == 7):
-        print("Determinant: ", temp.determinant())
-    elif(x == 8):
-        print("Inverse:")
+            print(result[0][i])
+        print("\n")
+        print("U: ")
+        for i in range(len(result[1])):
+            print(result[1][i])
+    elif(x == "7"):
+        print("Определитель: ", temp.determinant())
+    elif(x == "8"):
+        print("Обратная матрица:")
         if(temp.inverse() != 0):
             for i in temp.inverse():
                 print(i)
-    elif(x == 9):
+    elif(x == "9"):
         b = input_matrix()
         result = temp.ax_b(b = b)
         if(result != 0):
             for i in result:
                 print(i)
-    elif(x == 10):
+    elif(x == "10"):
         b = input_matrix()
         result = temp.seidel(b = b)
         if(result != 0):
             for i in result:
                 print(i)
-    elif(x == 11):
+    elif(x == "11"):
         result = temp.cholesky_decomposition()
         print(result)
-    elif(x == 12):
+    elif(x == "12"):
         result = temp.condition_number()
         print(result)
-    elif(x == 0):
+    elif(x == "0"):
         return True
     else:
-        print("No correct input")
+        print("Некорректный ввод")
     return False
 
 def vector_menu(temp):
     print("\n")
-    print("1. Show Vector")
-    print("2. Norm 1")
-    print("3. Norm 2")
-    print("4. Norm 3")
+    print("1. Вывести вектор")
+    print("2. 1 норма")
+    print("3. 2 норма")
+    print("4. 3 норма")
     
-    print("121. Save")
-    print("\n0. Exit")
+    print("121. Сохранить вектор")
+    print("\n0. Выйти")
 
-    x = int(input())
+    x = input()
     os.system(comand)
-    if(x == 1):
-        print("Matrix: ")
+    if(x == "1"):
+        print("Вектор: ")
         for i in temp.matrix:
             print(i)
-    elif(x == 2):
-        print("Norm 1: ", temp.norm1_vector())
-    elif(x == 3):
-        print("Norm 2: ", temp.norm2_vector())   
-    elif(x == 4):
-        print("Norm 3: ", temp.norm3_vector())
-    elif(x == 121):
+    elif(x == "2"):
+        print("1 норма: ", temp.norm1_vector())
+    elif(x == "3"):
+        print("2 норма: ", temp.norm2_vector())   
+    elif(x == "4"):
+        print("3 норма: ", temp.norm3_vector())
+    elif(x == "121"):
         save_matrix(temp.matrix)
-    elif(x == 0):
+    elif(x == "0"):
         return True
     else:
-        print("No correct input")
+        print("Некорректный ввод")
     return False
+
 def MatrixAction():
     exit = False
     
