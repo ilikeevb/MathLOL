@@ -527,7 +527,6 @@ class mathlol(object):
             matrix.append(temp)
 
         return max(matrix)
-    
     def lu(self, matrix = None):
         """
         LU разложение
@@ -537,20 +536,20 @@ class mathlol(object):
             matrix = self.matrix
         
         n = len(matrix)
-        U = self.copy(matrix)
+        U = self.eye(n)
         L = self.zeroes(n)
-        
+
         for i in range(n):
-            for j in range(i, n):
-                L[j][i]=U[j][i]/U[i][i];
-        
-        for k in range(1, n):
-            for i in range(k-1, n):
-                for j in range(i, n):
-                    L[j][i]=U[j][i]/U[i][i]
-            for i in range(k, n):
-                for j in range(k-1, n):
-                    U[i][j]=U[i][j]-L[i][k-1]*U[k-1][j]
+            for j in range(n):
+                s = 0
+                if i >= j:
+                    for k in range(1, j-1):
+                        s = s + L[i][k]*U[k][j]
+                    L[i][j] = matrix[i][j] - s
+                else:
+                    for k in range(1, i-1):
+                        s = s + L[i][k] * U[k][j]
+                    U[i][j] = (1/L[i][i]) * (matrix[i][j] - s)
 
         L = self.yoda(L)
         U = self.yoda(U)
