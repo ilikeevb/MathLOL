@@ -236,7 +236,18 @@ class mathlol(object):
             
             return sum
     
-
+    def determinantLU(self, L, U):
+        """
+        Определитель матрицы через LU
+        """
+        dotL = 1
+        dotU = 1
+        for i in range(len(L)):
+            dotL = dotL*L[i][i]
+        for i in range(len(U)):
+            dotU = dotU*U[i][i]
+        return(dotL*dotU)
+    
     def transposition(self, matrix = None):
         """
         Транспонирование матрицы
@@ -568,11 +579,11 @@ class mathlol(object):
             for j in range(n):
                 s = 0
                 if i >= j:
-                    for k in range(1, j-1):
+                    for k in range(j):
                         s = s + L[i][k]*U[k][j]
                     L[i][j] = matrix[i][j] - s
                 else:
-                    for k in range(1, i-1):
+                    for k in range(i):
                         s = s + L[i][k] * U[k][j]
                     U[i][j] = (1/L[i][i]) * (matrix[i][j] - s)
 
@@ -749,6 +760,9 @@ class mathlol(object):
     def todd(self, vector):
         return (self.max_abs_vector(vector) / self.min_abs_vector(vector))
 
-    def spectr(self, matrix):
-        matr = self.dotAB(transpos(matrix), matrix)
+    def spectr(self, matrix = None):
+        if matrix == None:
+            matrix = self.matrix
+            
+        matr = self.dotAB(self.transposition(matrix), matrix)
         return pow(max(self.eig(matr)), 0.5)
