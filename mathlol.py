@@ -254,7 +254,31 @@ class mathlol(object):
             transpos_matrix.append(temp)
         
         return transpos_matrix
-    
+
+    def trace(self, matrix = None):
+        '''
+        След матрицы (Сумма диагональных элементов)
+        '''
+
+        if matrix == None:
+            matrix = self.matrix
+
+        result = 0
+        for i in range(len(matrix)):
+            result += matrix[i][i]
+        return result
+
+    def f(x, p, n):
+        f = pow(x, n)
+
+        i = n - 1
+        while (i >= 0):
+            f -= pow(x, i) * p[n - i - 1]
+            i -= 1
+        if (n % 2 != 0):
+            f *= -1
+        return (f)
+
     def add(self, matrix):
         """
         Сумма матриц
@@ -527,6 +551,7 @@ class mathlol(object):
             matrix.append(temp)
 
         return max(matrix)
+    
     def lu(self, matrix = None):
         """
         LU разложение
@@ -585,7 +610,33 @@ class mathlol(object):
         except ValueError:
             print("Ошибка в вычислениях. Корень из отрицательного числа не существует")
             return 0
-    
+
+    def leverie(self, matrix = None):
+        '''
+        Метод Леверье
+        '''
+
+        if matrix == None:
+            matrix = self.matrix
+
+        H = self.eye(len(matrix))
+
+        p = [0 for i in range(len(matrix))]
+        S = [0 for i in range(len(matrix))]
+
+        p[0] = 1
+
+        for k in range(len(matrix)):
+            H = self.dotAB(H, matrix)
+            S[k] = self.trace(H)
+            s = S[k]
+            j = k - 1
+            while (j >= 0):
+                s -= p[k - j - 1] * S[j]
+                j -= 1
+            p[k] = (s / (k + 1))
+        return p
+
     def ax_b(self, b, A = None):
         """
         Решение уровнения AX = B
@@ -642,3 +693,62 @@ class mathlol(object):
         except OverflowError:
             print("Численный результат за пределами разрешенного диапазона")
             return 0
+
+    def eig(self, matrix=None, e = 0.001):
+        '''
+        Собственные значения метода
+        '''
+
+        if matrix == None:
+            matrix = self.matrix
+
+        new_matrix = len(matrix)
+
+        p = self.leverie(matrix)
+        x = [0 for i in range(len(matrix))]
+
+        result = 0
+        for i in matrix[0]:
+            result += abs(i)
+
+        begin = -result
+        end = -begin
+
+        h = 0.1
+        j = 0
+
+        i = begin
+
+        while (i < end):
+            if (f(i, p, new_matrix) * f(i + h, p, new_matrix) < 0):
+                a = i
+                b = i + h
+                while (b - a > e):
+                    c = (a + b) / 2
+                    if (f(b, p, new_matrix) * f(c, p, new_matrix) < 0):
+                        a = c
+                    else:
+                        b = c
+                x[j] = (a + b) / 2
+                j += 1
+            i += h
+        return(x)
+
+        def max_abs_vector(self, vector):
+            temp = abs(vector[0])
+            for i in vector:
+                if i >= temp: temp = i
+            return temp
+
+        def min_abs_vector(self, vector):
+            temp = abs(vector[0])
+            for i in vector:
+                if i <= temp: temp = i
+            return temp
+
+        def todd(self, vector):
+            return (self.max_abs_vector(vector) / self.min_abs_vector(vector))
+
+        def spectr(self, matrix):
+            matr = self.dotAB(transpos(matrix), matrix)
+            return pow(max(self.eig(matr)), 0.5)
