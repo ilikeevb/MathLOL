@@ -160,7 +160,7 @@ def matrix_menu(temp):
     print("\n")
     print("1. Вывести матрицу")
     print("2. 1 норма")
-    print("3. 2 норма")
+    print("3. Спектральная норма")
     print("4. Евклидова норма")
     print("5. Бесконечная норма")
     print("6. LU разложение")
@@ -170,6 +170,9 @@ def matrix_menu(temp):
     print("10. Метод Зейделя")
     print("11. Метод Холецкого")
     print("12. Число обусловленности")
+    print("13. Собственные значения")
+    print("14. Число Тодда")
+    
     print("\n")
     print("121. Сохранить матрицу")
     print("\n0. Выйти")
@@ -183,10 +186,7 @@ def matrix_menu(temp):
     elif(x == "2"):
         print("1 норма: ", temp.norm1())
     elif(x == "3"):
-        print("2 норма: ")
-        result = temp.norm2()
-        for i in result:
-            print(i)
+        print("Спектральная норма: ", round(temp.spectr(), 3))
     elif(x == "4"):
         print("Евклидова норма: ", temp.norm_E())
     elif(x == "5"):
@@ -203,7 +203,8 @@ def matrix_menu(temp):
         for i in range(len(result[1])):
             print(result[1][i])
     elif(x == "7"):
-        print("Определитель: ", temp.determinant())
+        l, u = temp.lu()
+        print("Определитель: ", temp.determinantLU(l, u))
     elif(x == "8"):
         print("Обратная матрица:")
         if(temp.inverse() != 0):
@@ -223,10 +224,17 @@ def matrix_menu(temp):
                 print(i)
     elif(x == "11"):
         result = temp.cholesky_decomposition()
-        print(result)
+        for i in result:
+            print(i)
     elif(x == "12"):
         result = temp.condition_number()
-        print(result)
+        print(round(result,3))
+    elif(x == "13"):
+        result = temp.eig()
+        for i in result:
+            print(round(i,3))
+    elif(x == "14"):
+        print(round(temp.todd(temp.eig()),3))
     elif(x == "0"):
         return True
     else:
@@ -278,7 +286,7 @@ def MatrixAction():
 
 
 if platform == "linux" or platform == "linux2":
-	comand = "clear"
+    comand = "clear"
 else: comand = "cls"
 
 os.system(comand)
