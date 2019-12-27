@@ -268,7 +268,7 @@ class mathlol(object):
             result += matrix[i][i]
         return result
 
-    def f(x, p, n):
+    def f(self, x, p, n):
         f = pow(x, n)
 
         i = n - 1
@@ -720,12 +720,12 @@ class mathlol(object):
         i = begin
 
         while (i < end):
-            if (f(i, p, new_matrix) * f(i + h, p, new_matrix) < 0):
+            if (self.f(i, p, new_matrix) * self.f(i + h, p, new_matrix) < 0):
                 a = i
                 b = i + h
                 while (b - a > e):
                     c = (a + b) / 2
-                    if (f(b, p, new_matrix) * f(c, p, new_matrix) < 0):
+                    if (self.f(b, p, new_matrix) * self.f(c, p, new_matrix) < 0):
                         a = c
                     else:
                         b = c
@@ -733,22 +733,22 @@ class mathlol(object):
                 j += 1
             i += h
         return(x)
+    
+    def max_abs_vector(self, vector):
+        temp = abs(vector[0])
+        for i in vector:
+            if i >= temp: temp = i
+        return temp
+    
+    def min_abs_vector(self, vector):
+        temp = abs(vector[0])
+        for i in vector:
+            if i <= temp: temp = i
+        return temp
+    
+    def todd(self, vector):
+        return (self.max_abs_vector(vector) / self.min_abs_vector(vector))
 
-        def max_abs_vector(self, vector):
-            temp = abs(vector[0])
-            for i in vector:
-                if i >= temp: temp = i
-            return temp
-
-        def min_abs_vector(self, vector):
-            temp = abs(vector[0])
-            for i in vector:
-                if i <= temp: temp = i
-            return temp
-
-        def todd(self, vector):
-            return (self.max_abs_vector(vector) / self.min_abs_vector(vector))
-
-        def spectr(self, matrix):
-            matr = self.dotAB(transpos(matrix), matrix)
-            return pow(max(self.eig(matr)), 0.5)
+    def spectr(self, matrix):
+        matr = self.dotAB(transpos(matrix), matrix)
+        return pow(max(self.eig(matr)), 0.5)
